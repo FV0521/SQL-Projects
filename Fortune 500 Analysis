@@ -58,27 +58,31 @@ VALUES
 
 
 
+SELECT * FROM fortune_companies
+LIMIT 10;
+
+# We determine which companies are classifed as high revenue, medium revenue, and low revenue in a CASE statement.
 SELECT company_name, revenue
-CASE WHEN revenue>=500 THEN "High Revenue"
-WHEN revenue BETWEEN 200 AND 400 THEN "Medium Revenue"
+,CASE WHEN revenue >=350 THEN "High Revenue"
+WHEN revenue >= 150 THEN "Medium Revenue"
 ELSE "Low Revenue"
 END AS revenue_category
 FROM fortune_companies
 ORDER BY revenue desc; 
 
-SELECT * FROM fortune_companies
-LIMIT 10;
-
+# Which companies have an average revenue of at least $350.00?
 SELECT company_name, AVG (revenue) AS  average_revenue
 FROM fortune_companies
 GROUP BY company_name
 HAVING AVG(revenue)>350;
 
+# Which are the companies that accept both healthcare benefits and maternity leave?
 SELECT company_name
 FROM fortune_companies
 WHERE healthcare_benefits = 1
 AND maternity_leave_weeks >= 6;
 
+How much has the Technology industry made in total income?
 SELECT SUM(revenue)
 FROM fortune_companies
 WHERE industry = "Technology";
