@@ -1,5 +1,6 @@
-# This project includes both the Schema SQL and Query SQL
-# Lines 3-28 are the Schema for the table
+# This project includes both the Schema SQL and Query SQL. The stored database's schema is at: 
+# https://www.db-fiddle.com/f/PvBAaQwEUSWAxZCsg4Vmx/0
+# Lines 4-29 are the Schema for the table
 CREATE TABLE superstore (
     item_id INTEGER PRIMARY KEY,
     item_name TEXT,
@@ -28,31 +29,34 @@ VALUES
     (15, 'Cozy Throw Blanket', 'Furnishings', 24.99, 100, 4.2);
 
 # Lines 31 through 59 are my queries 
--- Get the entire data but limit to 5 data entries (rows)
-SELECT *
-FROM superstore
-ORDER BY price
-LIMIT 5
+# Get the entire data but limit to 5 data entries (rows)
+SELECT * # select all data
+FROM superstore # from superstore table
+ORDER BY price  order data by price
+LIMIT 5 # limit to five rows of data entries
 ;
--- I wrote my own SQL statements to get statisitcs based on what outputI want to get such as sum, avergage max, and min. Aggregate functions are a summary of the output for the data
-SELECT SUM (price)
-FROM superstore;
+# I wrote my own SQL statements to get statisitcs based on what outputI want to get such as sum, avergage max, and min. 
+# Aggregate functions are a summary of the output for the data
+SELECT SUM (price) # Select the price column and get the total sum
+FROM superstore; # from superstore table
 
-SELECT AVG (price)
-FROM superstore;
+SELECT AVG (price) # Select the price column and get the average
+FROM superstore; # from superstore table
 
-SELECT MAX (price)
-FROM superstore;
+SELECT MAX (price) # Select the price column and get the maximum value
+FROM superstore; # from superstore table
 
-SELECT MIN (price)
-FROM superstore;
+SELECT MIN (price) # Select the price column and get the total minimum value 
+FROM superstore; # from superstore table
 
--- wrote  a SQL statement that shows a statisitc about price for items in category of "Kitchen Supplies". Using single quotes as it is Case Sensative to not use them for Kitcehn Supplies, the name of the category
-SELECT SUM(price)
-FROM superstore
-WHERE category = 'Kitchen Supplies';
+# write  a SQL statement that shows a statistic about price for items in category of "Kitchen Supplies". 
+# Using single quotes as it is Case Sensative to not use them for Kitcehn Supplies, the name of the category
+SELECT SUM(price) # Select the price column and get the sum
+FROM superstore # From superstore table
+WHERE category = 'Kitchen Supplies'; #  category must equal to Kitchen Supplies string
 
--- made my own SQL question where I seek out the average from the superstore database, and used GROUP BY and ORDER BY clauses. I sorted by using ORDER BY in descending order
+# made my own SQL question where I seek out the average from the superstore database, and used GROUP BY and ORDER BY clauses. 
+# I sorted by using ORDER BY in descending order
 SELECT AVG(price), item_name                       
 FROM superstore
 GROUP BY item_name
