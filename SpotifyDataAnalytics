@@ -1,0 +1,48 @@
+CREATE TABLE BIT_DB.Spotifydata (
+id integer PRIMARY KEY,
+artist_name varchar NOT NULL,
+track_name varchar NOT NULL,
+track_id varchar NOT NULL,
+popularity integer NOT NULL,
+danceability decimal(4,3) NOT NULL,
+energy decimal(4,3) NOT NULL,
+song_key integer NOT NULL,
+loudness decimal(5,3) NOT NULL,
+song_mode integer NOT NULL,
+speechiness decimal(5,4) NOT NULL,
+acousticness decimal(6,5) NOT NULL,
+instrumentalness decimal(8,7) NOT NULL,
+liveness decimal(5,4) NOT NULL,
+valence decimal(4,3) NOT NULL,
+tempo decimal(6,3) NOT NULL,
+duration_ms integer NOT NULL,
+time_signature integer NOT NULL )
+-- DROP TABLE IF EXISTS Spotifydata;
+
+SELECT* FROM Spotifydata;
+
+-- What is the average danceability by artist and track?
+SELECT * FROM BIT_DB.SpotifydataSELECT AVG(danceability), artist_name, track_name
+FROM Spotifydata
+GROUP BY danceability;
+
+-- Who are the top 10 artists based on popularity?
+
+SELECT artist_name, AVG(popularity) AS avg_popularity
+FROM Spotifydata
+GROUP by artist_name
+ORDER BY avg_popularity
+LIMIT 10;
+
+-- How many tracks are under the name artist: Olivia Rodrigo?
+
+SELECT COUNT(track_name), artist_name
+FROM Spotifydata
+WHERE artist_name = 'Olivia Rodrigo';
+
+-- Give me track names where popularity is at least 80 and tempo is at least 100. List the track names in alphabetical order
+SELECT track_name, popularity, tempo
+FROM Spotifydata
+WHERE popularity >= 80
+AND tempo >= 100
+ORDER BY track_name asc;
