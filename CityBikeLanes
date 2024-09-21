@@ -93,3 +93,27 @@ GROUP BY Street
 SELECT street, safety_rating, "Safe Lane" AS tag
 FROM safe_lane
 WHERE safety_rating >=4;
+
+
+SELECT street, safetyrating,
+AVG(safetyrating) OVER (PARTITION BY street) as "Average_safety_rating",
+CASE WHEN AVG(safetyrating) OVER (PARTITION BY street) >=4 THEN "Leave As-Is"
+    WHEN AVG(safetyrating) OVER (PARTITION BY street) <2.5 THEN "Remove"
+    ELSE "Improvements Needed"
+    END AS "Recommendation"
+FROM CityBikeLanes
+
+
+-- Let's say you still work as a data analyst for your city like in the previous lesson. 
+-- Now, the city has decided to remove the least safe bike lanes, make improvements on the bike lanes that are 
+-- already somewhat safe, and leave the most safe bike lanes as-is. 
+-- You need to give your boss the list of all the bike lanes, both safety ratings for each lane given by the two technicians, the average safety rating for each lane, 
+-- and a label with the recommendation as "Remove", "Leave As-Is", or "Improvements Needed".
+
+SELECT street, safetyrating,
+AVG(safetyrating) OVER (PARTITION BY street) as "Average_safety_rating",
+CASE WHEN AVG(safetyrating) OVER (PARTITION BY street) >=4 THEN "Leave As-Is"
+    WHEN AVG(safetyrating) OVER (PARTITION BY street) <2.5 THEN "Remove"
+    ELSE "Improvements Needed"
+    END AS "Recommendation"
+FROM CityBikeLanes
