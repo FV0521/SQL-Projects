@@ -62,3 +62,15 @@ SELECT emp.LastName, emp.Firstname, inv.InvoiceId
 FROM chinook.Employees emp 
 JOIN chinook.Customers cust ON cust.SupportRepId = emp.EmployeeId
 JOIN chinook.Invoices Inv ON Inv.CustomerId = cust.CustomerId;
+
+-- How many invoices were there in 2009?
+SELECT COUNT(*)
+FROM chinook.invoices
+WHERE InvoiceDate BETWEEN '2009-01-1' AND '2009-12-26';
+
+-- What are the total sales for 2009?
+
+SELECT ROUND(SUM(total),2) AS total_sales
+FROM chinook.invoices
+WHERE '2009-01-01' AND '2009-12-26';
+
