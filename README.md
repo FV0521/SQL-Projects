@@ -37,8 +37,16 @@ Goal: Using a Spotify dataset to look up songs, soundtracks, and music artists t
 
 Techniques: Use CREATE TABLE for a comprehensive list of columns for each song and its artists from the Excel file. I imported data from an Excel csv file by cicking Import from Tools, selecting BIT_DB as database name, and naming new table Spotifydata. I came up with my own SQL query questions after doing this
 
-Key Skills: Focusing on how to import an csv file into Excel for SQLite. 
+Key Skills: Focusing on how to import an csv file into Excel for SQLite. Inserted my own questions by my own judgement to create a variety of SQL statements
 
-Key Skills: 
+# Final SQL Project
 
-Techniques: 
+Goal: The project focused on using a music store schema to gather and filter data for a music store. This is a comprehensive project to test my SQL skills.
+
+Techniques: A project that tests my skills from creating basic SQL queries using WHERE, AND, GROUP BY, and ORDER BY as well as using advanced JOIN type tables to combine tables.
+
+Key Skills: I created this file to demonstrate how to navigate the music store's data tables by starting out small and working my way up to more complex scenarios.
+
+# Outside projects of course
+
+#
