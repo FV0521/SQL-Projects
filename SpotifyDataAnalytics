@@ -22,16 +22,16 @@ valence decimal(4,3) NOT NULL,
 tempo decimal(6,3) NOT NULL,
 duration_ms integer NOT NULL,
 time_signature integer NOT NULL )
--- DROP TABLE IF EXISTS Spotifydata;
+DROP TABLE IF EXISTS Spotifydata;
 
 SELECT* FROM Spotifydata;
 
--- What is the average danceability by artist and track?
+-- Question: What is the average danceability by artist and track?
 SELECT * FROM BIT_DB.SpotifydataSELECT AVG(danceability), artist_name, track_name
 FROM Spotifydata
 GROUP BY danceability;
 
--- Who are the top 10 artists based on popularity?
+-- Question: Who are the top 10 artists based on popularity?
 
 SELECT artist_name, AVG(popularity) AS avg_popularity
 FROM Spotifydata
@@ -39,29 +39,39 @@ GROUP by artist_name
 ORDER BY avg_popularity
 LIMIT 10;
 
--- How many tracks are under the name artist: Olivia Rodrigo?
+-- Question: How many tracks are under the name artist: Olivia Rodrigo?
 
 SELECT COUNT(track_name), artist_name
 FROM Spotifydata
-WHERE artist_name = 'Olivia Rodrigo';
+WHERE artist_name = 'Olivia Rodrigo'
+GROUP BY artist_name;
+-- We aggregate track_name using COUNT()
+-- We get artist name, and those two columns are from Spotifydata table
+-- WHERE we want the count for the speciifc artist name 'Olivia Rodrigo'
+-- GROUP by artist_name
 
--- Give me track names where popularity is at least 80 and tempo is at least 100. List the track names in alphabetical order
+-- Question: Give me track names where popularity is at least 80 and tempo is at least 100. List the track names in alphabetical order
 SELECT track_name, popularity, tempo
 FROM Spotifydata
 WHERE popularity >= 80
 AND tempo >= 100
-ORDER BY track_name asc;
+ORDER BY track_name ASC;
+
+-- SELECT three columns: track_name, popularity, and tempo
+-- FROM the Spotifydata table
+-- WHERE we have two specific criteras using WHERE filter: popularity is at least 80 and tempo is at least 100
+-- ORDER the track_names in ascending order
 
 
 -- Question: Find the artist whose tracks have the highest average popularity across all their tracks. 
--- This would involve a subquery to first calculate the average popularity for each artist, 
--- and then selecting the artist with the highest value.
--- Tip: anything not used in aggregation is a part of GROUP BY; hence, artist_name
 SELECT artist_name, AVG(popularity) AS avg_popularity
 FROM Spotifydata
 GROUP BY artist_name
 ORDER BY avg_popularity DESC
 LIMIT 1;
+-- This would involve a subquery to first calculate the average popularity for each artist, 
+-- and then selecting the artist with the highest value.
+-- Tip: anything not used in aggregation is a part of GROUP BY; hence, artist_name
 
 -- Question Question: Write a query to group tracks by their song_mode and find the 
 -- average energy and danceability for tracks in both modes (0 and 1). 
@@ -72,7 +82,7 @@ SELECT song_mode, AVG(energy) AS avg_energy, AVG(danceability) AS avg_danceabilt
 FROM Spotifydata
 GROUP BY song_mode;
 
--- Write a query to find the average duration of tracks grouped by their popularity range 
+-- Question: Write a query to find the average duration of tracks grouped by their popularity range 
 -- (e.g., group tracks into popularity ranges of 0-20, 21-40, etc.). 
 -- Calculate the average duration for each range and order the results by the popularity range.
 
@@ -93,7 +103,7 @@ ORDER BY popularity_range;
 -- GROUP by popularity_range since that's our new alias name instead of popularity, thus it is not part of AVG()
 
 
--- Find the average tempo for tracks with popularity greater than 85. Return just the average tempo. (Is this good)?
+-- Question: Find the average tempo for tracks with popularity greater than 85. Return just the average tempo. 
 
 SELECT AVG(tempo) AS avg_tempo
 FROM Spotifydata
@@ -102,7 +112,7 @@ WHERE popularity > 85;
 -- We only want the average tempo returned so no GROUP BY is needed
 -- Only focus on tracks with popularity greater than 85
 
--- Count how many tracks have an even duration and how many have an odd duration. 
+-- Question: Count how many tracks have an even duration and how many have an odd duration. 
 -- Return two columns: one for the count of even-duration tracks and one for odd-duration tracks. (
 SELECT
     CASE
