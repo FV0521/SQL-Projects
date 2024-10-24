@@ -51,3 +51,23 @@ FROM Spotifydata
 WHERE popularity >= 80
 AND tempo >= 100
 ORDER BY track_name asc;
+
+
+-- Question: Find the artist whose tracks have the highest average popularity across all their tracks. 
+-- This would involve a subquery to first calculate the average popularity for each artist, 
+-- and then selecting the artist with the highest value.
+-- Tip: anything not used in aggregation is a part of GROUP BY; hence, artist_name
+SELECT artist_name, AVG(popularity) AS avg_popularity
+FROM Spotifydata
+GROUP BY artist_name
+ORDER BY avg_popularity DESC
+LIMIT 1;
+
+-- Question Question: Write a query to group tracks by their song_mode and find the 
+-- average energy and danceability for tracks in both modes (0 and 1). 
+-- This helps you analyze which mode tends to have higher energy or danceability.
+-- Same as earlier
+
+SELECT song_mode, AVG(energy) AS avg_energy, AVG(danceability) AS avg_danceabiltiy 
+FROM Spotifydata
+GROUP BY song_mode;
