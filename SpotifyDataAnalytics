@@ -71,3 +71,52 @@ LIMIT 1;
 SELECT song_mode, AVG(energy) AS avg_energy, AVG(danceability) AS avg_danceabiltiy 
 FROM Spotifydata
 GROUP BY song_mode;
+
+-- Write a query to find the average duration of tracks grouped by their popularity range 
+-- (e.g., group tracks into popularity ranges of 0-20, 21-40, etc.). 
+-- Calculate the average duration for each range and order the results by the popularity range.
+
+SELECT 
+    CASE 
+        WHEN popularity BETWEEN 0 AND 20 THEN '0-20'
+        WHEN popularity BETWEEN 21 AND 40 THEN '21-40'
+        WHEN popularity BETWEEN 41 AND 60 THEN '41-60'
+        WHEN popularity BETWEEN 61 AND 80 THEN '61-80'
+        WHEN popularity BETWEEN 81 AND 100 THEN '81-100'
+    END AS popularity_range,
+    AVG(duration_ms) AS avg_duration
+FROM Spotifydata
+GROUP BY popularity_range
+ORDER BY popularity_range;
+
+-- We use CASE to make categories by popularity ranges, and getting their averages. We END AS popularity_ range as an alias.
+-- GROUP by popularity_range since that's our new alias name instead of popularity, thus it is not part of AVG()
+
+
+-- Find the average tempo for tracks with popularity greater than 85. Return just the average tempo. (Is this good)?
+
+SELECT AVG(tempo) AS avg_tempo
+FROM Spotifydata
+WHERE popularity > 85;
+
+-- We only want the average tempo returned so no GROUP BY is needed
+-- Only focus on tracks with popularity greater than 85
+
+-- Count how many tracks have an even duration and how many have an odd duration. 
+-- Return two columns: one for the count of even-duration tracks and one for odd-duration tracks. (
+SELECT
+    CASE
+        WHEN duration_ms %2 = 0 THEN 'EVEN' -- Even duration
+        WHEN duration_ms %2 != 0 THEN 'ODD' -- Odd duration 
+    END AS duration_classification,
+    COUNT(track_name) AS track_count
+    FROM Spotifydata
+    GROUP BY duration_classification; 
+
+-- To count Odd and Even durations, we use CASE to classify them with CASE, naming it as duration_classification
+-- %2 is modulus or modulo operator, and it returns the remainder of a division between two numbers.
+-- divides the track's duration (in milliseconds) by 2 and checks the remainder
+-- we COUNT(track_name) to count how many tracks are classified as Odd or Even duration, and GROUP BY duration_classification 
+
+
+
