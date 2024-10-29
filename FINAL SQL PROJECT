@@ -1,31 +1,45 @@
 
 SELECT * FROM customers;
 
--- Show customers (full name, customer ID, and country) who are not in U.S.
+-- 1) Show customers (full name, customer ID, and country) who are not in U.S.
 SELECT FirstName, LastName, CustomerId, Country
 FROM chinook.customers
 WHERE country <> 'USA';
 
--- Show only the Customers from Brazil.
+-- Select FirstName, LastName, CustomerID, and Country columns
+-- From the chinook database's customers tables
+-- We only filter out 'USA' using <> (not equal); hence countries outside of the USA only
+
+-- 2)  Show only the Customers from Brazil.
 
 SELECT FirstName, LastName, Country
 FROM chinook.customers
 WHERE Country = 'Brazil';
 
--- Find the Invoices of customers who are from Brazil. 
+-- We select FirstName, LastName, and Country columns
+-- From the chinook database's customers
+-- WHERE we want customers from Brazil only
+
+-- 3) Find the invoices for customers who are from Brazil. 
 -- The resulting table should show the customer's full name, Invoice ID, Date of the invoice, 
 -- and billing country.
 
 SELECT * FROM chinook.invoice_items;
 SELECT * FROM chinook.customers;
+-- I merely wanted to look at both tables and their datas using all (*)
 
-SELECT FirstName, LastName, InvoiceId, InvoiceDate, BillingCountry
-FROM customers
-JOIN invoices
-ON customers.CustomerId = invoices.CustomerId
-WHERE BillingCountry = 'Brazil';
+SELECT cust.FirstName, cust.LastName, inv.InvoiceId, inv.InvoiceDate, inv.BillingCountry
+FROM chinook.customers AS cust
+LEFT JOIN chinook.invoices AS inv
+ON cust.CustomerId = inv.CustomerId
+WHERE inv.BillingCountry = 'Brazil';
 
--- Show the Employees who are Sales Agents.
+-- We select the columns from both corresponding tables, using an alias before the period (cust and inv)
+-- We get the data from chinook's customers table, using AS cust
+-- Left Join because we return all records from table and matching records from the right table
+-- Joining both tables since they share CustomerID and only getting Brazil using WHERe filter
+
+-- 4) Show the Employees who are Sales Agents.
 
 SELECT * FROM employees;
 
@@ -33,12 +47,69 @@ SELECT EmployeeId, FirstName, LastName, Title
 FROM chinook.employees
 WHERE Title = "Sales Support Agent";
 
--- Find a unique/distinct list of billing countries from the Invoice table.
+-- We can also use the astriek symbol (*) to get all values but I choose to only get the names, EmployeeIds and Title columns
+-- From chinook's employees tables
+-- We only filter to "Sales Support Agent"
+
+-- 5) Find a unique/distinct list of billing countries from the Invoice table.
 
 SELECT distinct BillingCountry
 FROM chinook.invoices; 
 
--- Write a query that includes purchased track name with each invoice line id
+-- use DISTINCT to get unique values from BillingCountry column
+-- FROM chinook's invoices tables
+
+-- 6) Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name.
+SELECT emp.FirstName, emp.LastName, inv.invoiceId
+FROM chinook.employees emp
+JOIN chinook.customers cust ON emp.EmployeeId = cust.SupportRepId
+JOIN chinook.invoices inv ON inv.CustomerId = cust.CustomerId;
+
+-- Selecting the columns from employees (FirstName and LastName) nad invoices (invoiceId)
+-- From employees
+-- JOIN customers on employees as they both share employee ID (
+-- A multiple join joining invoices and customers with customer ID
+-- we use emp and inv as aliases
+
+-- 7)  Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
+-- Invoice Total, Customer name, Country, and Sales Agent name
+-- for all invoices and customers.
+
+SELECT emp.LastName, emp.Firstname, cust.FirstName, cust.LastName, cust.Country, inv.total
+FROM chinook.employees emp 
+JOIN chinook.Customers cust ON cust.SupportRepId = emp.EmployeeId
+JOIN chinook.Invoices Inv ON Inv.CustomerId = cust.CustomerId;
+
+-- SELECT the following columns: LastName and FirstName from employees, LastName and FirstName from customers, Country from customers
+-- and total from invoices
+-- FROM chinook's employees table (we use emp after employees as an Alias to make code readable)
+-- We join chinook database's customers table with employees by connecting SupportRepID and EmployeeID columns
+-- We also join customers and invoices as they both share CustomerID columns
+
+
+
+
+-- 8) How many invoices were there in 2009?
+SELECT COUNT(*)
+FROM chinook.invoices
+WHERE InvoiceDate BETWEEN '2009-01-1' AND '2009-12-26';
+
+-- We want a unique count of in invoices
+-- From chinook's invoices
+-- Where we only want the dates in 2009 only
+
+-- 9) What are the total sales for 2009?
+
+SELECT ROUND(SUM(total),2) AS total_sales
+FROM chinook.invoices
+WHERE InvoiceDate BETWEEN '2009-01-01' AND '2009-12-26';
+
+-- I want to round the summ using ROUND(SUM(total),2); this is a combination of functions
+-- FROM chinook's invoices
+-- WHERE the dates must be in dates only from 2009
+
+-- 
+-- 10) Write a query that includes purchased track name with each invoice line id
 
 SELECT * FROM tracks;
 
@@ -47,30 +118,11 @@ FROM chinook.invoice_items i
 JOIN chinook.Tracks t
 ON i.TrackId = t.TrackId;
 
+-- SELECT name and invoice line from track and invoice tables
+-- Join both tables with TrackID
 
--- Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name.
-SELECT FirstName, LastName, invoiceId
-FROM chinook.employees
 
-JOIN chinook.customers
-ON employees.EmployeeId = customers.SupportRepId
 
-JOIN chinook.invoices 
-ON invoices.CustomerId = customers.CustomerId;
 
-SELECT emp.LastName, emp.Firstname, inv.InvoiceId
-FROM chinook.Employees emp 
-JOIN chinook.Customers cust ON cust.SupportRepId = emp.EmployeeId
-JOIN chinook.Invoices Inv ON Inv.CustomerId = cust.CustomerId;
 
--- How many invoices were there in 2009?
-SELECT COUNT(*)
-FROM chinook.invoices
-WHERE InvoiceDate BETWEEN '2009-01-1' AND '2009-12-26';
-
--- What are the total sales for 2009?
-
-SELECT ROUND(SUM(total),2) AS total_sales
-FROM chinook.invoices
-WHERE '2009-01-01' AND '2009-12-26';
 
