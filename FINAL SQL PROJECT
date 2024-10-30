@@ -121,6 +121,44 @@ ON i.TrackId = t.TrackId;
 -- SELECT name and invoice line from track and invoice tables
 -- Join both tables with TrackID
 
+-- 11) Write a query that includes the purchased track name AND artist name with each invoice line ID.
+SELECT ar.name as Artist, t.Name as Track, i.InvoiceLineId
+FROM chinook.Invoice_items i
+LEFT JOIN chinook.tracks t 
+ON i.TrackID=t.TrackID
+INNER JOIN chinook.albums a
+ON a.AlbumID=t.AlbumID
+LEFT JOIN chinook.artists ar
+ON ar.ArtistID=a.ArtistID;
+
+-- SELECT the columns (name from artist AS artist (artists), Name AS Track (tracks), and InvoiceLineId from invocies)
+-- From Invoice_items
+-- Left join the tracks with invoices as they share TrackID
+-- Inner Join the albumns with tracks as they share AlbumID
+-- Left Join artists as artists and albums share ArtistID
+
+
+
+
+
+
+-- 12) Provide a query that shows all the Tracks, and include the Album name, Media type, and Genre.
+SELECT tr.Name AS 'Track Name', a.Title AS 'Album Title', m.Name AS 'Media Type', g.Name As 'genre'
+FROM chinook.tracks tr
+JOIN chinook.Albums a
+ON tr.AlbumId = a.AlbumId
+JOIN chinook.media_types m
+ON tr.MediaTypeId = m.MediaTypeId
+JOIN chinook.genres g
+ON tr.GenreId = g.GenreId;
+
+-- We select columns from different tables (tracks: Name albums: Title media_types: name)
+-- (genres: name)
+-- FROM  tracks table
+-- We JOIN albumns table as both tracks and albumns share albumId
+-- We JOIN media types as both tracks and media_types share MediaTypeId
+-- We JOIN genres as both tracks and genres share GenreId
+-- The purpose of multiple join tables 
 
 
 
