@@ -90,11 +90,14 @@ FROM CityBikeLanes
 GROUP BY Street
 )
 
+-- Query 3
 SELECT street, safety_rating, "Safe Lane" AS tag
 FROM safe_lane
 WHERE safety_rating >=4;
 
 
+
+-- Query 4
 SELECT street, safetyrating,
 AVG(safetyrating) OVER (PARTITION BY street) as "Average_safety_rating",
 CASE WHEN AVG(safetyrating) OVER (PARTITION BY street) >=4 THEN "Leave As-Is"
@@ -110,6 +113,7 @@ FROM CityBikeLanes
 -- You need to give your boss the list of all the bike lanes, both safety ratings for each lane given by the two technicians, the average safety rating for each lane, 
 -- and a label with the recommendation as "Remove", "Leave As-Is", or "Improvements Needed".
 
+-- Query 5
 SELECT street, safetyrating,
 AVG(safetyrating) OVER (PARTITION BY street) as "Average_safety_rating",
 CASE WHEN AVG(safetyrating) OVER (PARTITION BY street) >=4 THEN "Leave As-Is"
